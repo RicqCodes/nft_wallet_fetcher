@@ -1,4 +1,4 @@
-import { NFTDataProcessor } from "./NFTProcessor"; // Adjust the path if necessary
+import { NFTDataProcessor } from "./NFTProcessor";
 import { COUNTER_CONTRACT_ADDRESSES } from "./services/constants";
 
 const nftProcessor = new NFTDataProcessor(COUNTER_CONTRACT_ADDRESSES);
