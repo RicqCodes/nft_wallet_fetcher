@@ -36,7 +36,7 @@ Before using the NFT Data Processor, ensure that you have the following installe
 
 ## Usage
 
-1. Open the app.ts file and update the COUNTER_CONTRACT_ADDRESSES array with the NFT contract addresses you want to fetch data for.
+1. Open the constants.ts file and update the COUNTER_CONTRACT_ADDRESSES array with the NFT contract addresses you want to fetch data for.
 
 2. Run the app:
 
