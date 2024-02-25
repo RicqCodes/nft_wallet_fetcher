@@ -2,10 +2,6 @@
 
 First off, thank you for considering contributing to NFT Wallet Fetcher! It's people like you that make the open source community such a fantastic place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-## Code of Conduct
-
-This project and everyone participating in it is governed by the [NFT Wallet Fetcher Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [your-email@example.com].
-
 ## How Can I Contribute?
 
 ### Reporting Bugs
