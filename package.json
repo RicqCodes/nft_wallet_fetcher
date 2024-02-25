@@ -1,15 +1,37 @@
 {
   "name": "nft_wallet_fetcher",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "description": "A utility to fetch NFT holder information.",
+  "main": "dist/app.js",
+  "types": "dist/app.d.ts",
   "scripts": {
-    "start": "ts-node app.ts"
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "prepublishOnly": "npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ricqcodes/nft_wallet_fetcher.git"
+  },
+  "keywords": [
+    "NFT",
+    "wallet",
+    "blockchain"
+  ],
+  "author": "ricqcodes <nwakanmaprince1996@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ricqcodes/nft_wallet_fetcher/issues"
+  },
+  "homepage": "https://github.com/ricqcodes/nft_wallet_fetcher#readme",
   "dependencies": {
     "@injectivelabs/networks": "^1.14.4",
     "@injectivelabs/sdk-ts": "^1.14.4",
-    "@injectivelabs/sdk-ui-ts": "^1.14.4",
-    "latest": "^0.2.0"
+    "@injectivelabs/sdk-ui-ts": "^1.14.4"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4",
+    "ts-node": "^10.4.0"
   }
 }
+
