@@ -1,63 +1,73 @@
-# NFT Data Processor
+```markdown
+# NFT Wallet Fetcher
 
-The NFT Data Processor is a small app written in TypeScript that fetches information about NFT owners from the Injective Protocol blockchain and generates a CSV file containing the data.
+The NFT Wallet Fetcher is a TypeScript library designed to facilitate the retrieval of NFT wallet information from the blockchain. It leverages the Injective Labs protocols to fetch and process NFT ownership data, making it easier for developers to integrate NFT data into their applications.
 
-## Table of Contents
+## Features
 
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [CSV Output](#csv-output)
-- [License](#license)
-
-## Prerequisites
-
-Before using the NFT Data Processor, ensure that you have the following installed:
-
-- Node.js (v14 or later)
-- TypeScript
-- yarn
+- Fetch NFT ownership data from specified smart contracts.
+- Process and convert NFT data into a CSV format for easy analysis and reporting.
+- Support for multiple blockchain networks via Injective Labs SDK.
 
 ## Installation
 
-1. Clone the repository:
+Install `nft_wallet_fetcher` using npm:
 
-   ```bash
-   git clone <repository-url>
-   cd nft-data-processor
-   ```
+```bash
+npm install nft_wallet_fetcher
+```
 
-2. Install dependencies
+Or using yarn:
 
-   ```bash
-   yarn install
-   ```
+```bash
+yarn add nft_wallet_fetcher
+```
 
 ## Usage
 
-1. Open the constants.ts file and update the COUNTER_CONTRACT_ADDRESSES array with the NFT contract addresses you want to fetch data for.
+First, import `NFTDataProcessor` from `nft_wallet_fetcher`:
 
-2. Run the app:
+```typescript
+import { NFTDataProcessor } from 'nft_wallet_fetcher';
+```
 
-   ```bash
-   yarn start
-   ```
+Then, initialize it with your contract addresses:
 
-   This will fetch information about NFT owners and generate a CSV file in the res folder.
+```typescript
+const contractAddresses = [
+  { name: "Injective Quants", address: "inj16m9n05n80uylxaafk32qyha38fmwcfpssnpfak" },
+  // Add more contracts as needed
+];
 
-## Configuration
+const nftProcessor = new NFTDataProcessor(contractAddresses);
+```
 
-You can customize the behavior of the app by modifying the `NFTDataProcessor` class in the `NFTProcessor.ts` file. You may adjust the contract addresses, file paths, or other parameters as needed.
+Fetch and process NFT data:
 
-## CSV Output
+```typescript
+async function fetchNFTData() {
+  await nftProcessor.findOwnersOfNFTs();
+  await nftProcessor.convertToCSV();
+}
 
-The generated CSV file (`ownersList.csv`) contains the following columns:
+fetchNFTData();
+```
 
-- TokenName: Name of the NFT token
-- TokenAddress: Address of the NFT contract
-- Owner: Wallet address of the NFT owner
+This will fetch the NFT data and generate a CSV file in the specified output directory.
+
+## API Reference
+
+Please refer to the TypeScript interface definitions for detailed API information.
+
+## Contributing
+
+Contributions are always welcome! Please read the [contributing guide](CONTRIBUTING.md) for ways to contribute, and the process for submitting pull requests to us.
+
+## Support
+
+If you encounter any issues or require assistance, please open an issue on our [GitHub issues page](https://github.com/ricqcodes/nft_wallet_fetcher/issues).
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```
