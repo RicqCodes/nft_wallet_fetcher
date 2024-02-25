@@ -1,4 +1,4 @@
-```markdown
+
 # NFT Wallet Fetcher
 
 The NFT Wallet Fetcher is a TypeScript library designed to facilitate the retrieval of NFT wallet information from the blockchain. It leverages the Injective Labs protocols to fetch and process NFT ownership data, making it easier for developers to integrate NFT data into their applications.
@@ -70,4 +70,4 @@ If you encounter any issues or require assistance, please open an issue on our [
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
+
