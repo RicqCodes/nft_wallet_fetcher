@@ -2,12 +2,16 @@ import * as fs from "fs";
 import * as path from "path";
 import { chainGrpcWasmApi } from "./services/services";
 import { toBase64 } from "@injectivelabs/sdk-ts";
+import { createWriteStream } from "fs";
 
 interface TokenInfo {
   name: string;
   address: string;
 }
 
+/**
+ * Represents a class for processing NFT data.
+ */
 export class NFTDataProcessor {
   private tokenOwners: {
     tokenName: string;
@@ -15,7 +19,10 @@ export class NFTDataProcessor {
     tokenAddress: string;
     owner: string;
   }[] = [];
-
+  /**
+   * Creates an instance of NFTDataProcessor.
+   * @param contractAddresses - An array of token information containing the name and address of each token.
+   */
   constructor(private contractAddresses: TokenInfo[]) {}
 
   private logError(message: string, error: Error): void {
@@ -49,6 +56,10 @@ export class NFTDataProcessor {
     }
   }
 
+  /**
+   * Finds the owners of NFTs for the given contract addresses.
+   * @returns A Promise that resolves when the owners of NFTs have been found.
+   */
   public async findOwnersOfNFTs(): Promise<void> {
     for (const tokenInfo of this.contractAddresses) {
       try {
@@ -104,35 +115,63 @@ export class NFTDataProcessor {
     }
   }
 
-  public async convertToCSV(): Promise<void> {
-    const outputDirectory = "res";
-    const outputFileName = "ownersList.csv";
-    const outputPath = path.join(outputDirectory, outputFileName);
-
-    // Ensure the directory exists
+  /**
+   * Converts the token owners' data to a CSV file.
+   * @param outputDirectory - The output directory where the CSV file will be created. Defaults to "res".
+   * @returns A Promise that resolves when the CSV file has been created.
+   */
+  public async convertToCSV(outputDirectory: string = "res"): Promise<void> {
     await this._ensureDirectoryExists(outputDirectory);
+    const outputPath = path.join(outputDirectory, "ownersList.csv");
 
-    const csvHeader = "TokenName,TokenAddress,Owner\n";
+    const stream = createWriteStream(outputPath, { flags: "a" });
+    stream.write("TokenName,TokenAddress,Owner\n");
 
-    // Batch writes (adjust batch size as needed)
-    const batchSize = 100;
-    for (let i = 0; i < this.tokenOwners.length; i += batchSize) {
-      const batch = this.tokenOwners.slice(i, i + batchSize);
-      const csvData = batch
-        .map(
-          (entry) => `${entry.tokenName},${entry.tokenAddress},${entry.owner}`
-        )
-        .join("\n");
-      const csvContent = csvHeader + csvData;
-
-      try {
-        await fs.promises.appendFile(outputPath, csvContent, "utf-8");
-      } catch (error: any) {
-        this.logError("Error writing CSV file:", error);
-        console.error("Error writing CSV file:", error);
-      }
+    for (const { tokenName, tokenAddress, owner } of this.tokenOwners) {
+      const line = `${tokenName},${tokenAddress},${owner}\n`;
+      stream.write(line);
     }
 
-    console.log(`CSV file successfully created at ${outputPath}`);
+    stream.end();
+    stream.on("finish", () =>
+      console.log(`CSV file successfully created at ${outputPath}`)
+    );
+    stream.on("error", (error) =>
+      this.logError("Error writing CSV file:", error)
+    );
   }
+
+  /**
+   * Returns the array of token owners.
+   * @returns An array of token owners.
+   */
+  public getNFTOwners(): {
+    tokenName: string;
+    tokenId: number;
+    tokenAddress: string;
+    owner: string;
+  }[] {
+    return this.tokenOwners;
+  }
+
+  // Ensure the directory exists
+
+  // const csvHeader = "TokenName,TokenAddress,Owner\n";
+
+  // Batch writes (adjust batch size as needed)
+  // const batchSize = 100;
+  // for (let i = 0; i < this.tokenOwners.length; i += batchSize) {
+  //   const batch = this.tokenOwners.slice(i, i + batchSize);
+  //   const csvData = batch
+  //     .map(
+  //       (entry) => `${entry.tokenName},${entry.tokenAddress},${entry.owner}`
+  //     )
+  //     .join("\n");
+  //   const csvContent = csvHeader + csvData;
+
+  // try {
+  //   await fs.promises.appendFile(outputPath, csvContent, "utf-8");
+  // } catch (error: any) {
+  //   this.logError("Error writing CSV file:", error);
+  // }
 }
