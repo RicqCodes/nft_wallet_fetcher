@@ -1,2 +1,13 @@
+# Dependency directories
+node_modules/
 res
-node_modules
+
+# Compiled JavaScript files
+*.js
+*.js.map
+
+# TypeScript declaration files
+*.d.ts
+
+# Build output directory
+dist/

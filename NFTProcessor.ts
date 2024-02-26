@@ -18,6 +18,10 @@ export class NFTDataProcessor {
 
   constructor(private contractAddresses: TokenInfo[]) {}
 
+  private logError(message: string, error: Error): void {
+    console.error(message, error);
+  }
+
   private async _getNFTSupply(tokenInfo: TokenInfo): Promise<number> {
     try {
       const response = await chainGrpcWasmApi.fetchSmartContractState(
@@ -30,11 +34,9 @@ export class NFTDataProcessor {
       const resultString = textDecoder.decode(uint8Array);
       const result: { count: number } = JSON.parse(resultString);
       return result.count;
-    } catch (e) {
-      console.log(
-        `Error getting supply for ${tokenInfo.name} - ${tokenInfo.address}:`,
-        e
-      );
+    } catch (error: any) {
+      this.logError(`Error getting supply for ${tokenInfo.name}:`, error);
+
       return 0; // Return 0 if there's an error
     }
   }
@@ -42,8 +44,8 @@ export class NFTDataProcessor {
   private async _ensureDirectoryExists(directoryPath: string): Promise<void> {
     try {
       await fs.promises.mkdir(directoryPath, { recursive: true });
-    } catch (error) {
-      console.error("Error creating directory:", error);
+    } catch (error: any) {
+      this.logError(`Error creating directory:`, error);
     }
   }
 
@@ -86,16 +88,16 @@ export class NFTDataProcessor {
             console.log(
               `Inserted ${tokenInfo.name} - ${tokenInfo.address} for owner ${result.owner}`
             );
-          } catch (error) {
-            console.error(
+          } catch (error: any) {
+            this.logError(
               `Error processing ${tokenInfo.name} - ${tokenInfo.address} for tokenId ${tokenId}:`,
               error
             );
           }
         }
-      } catch (error) {
-        console.error(
-          `Error getting supply for ${tokenInfo.name} - ${tokenInfo.address}:`,
+      } catch (error: any) {
+        this.logError(
+          `Error getting suppply for ${tokenInfo.name} - ${tokenInfo.address}:`,
           error
         );
       }
@@ -125,7 +127,8 @@ export class NFTDataProcessor {
 
       try {
         await fs.promises.appendFile(outputPath, csvContent, "utf-8");
-      } catch (error) {
+      } catch (error: any) {
+        this.logError("Error writing CSV file:", error);
         console.error("Error writing CSV file:", error);
       }
     }
