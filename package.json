@@ -1,6 +1,6 @@
 {
   "name": "nft_wallet_fetcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A utility to fetch NFT holder information.",
   "main": "dist/app.js",
   "types": "dist/app.d.ts",
@@ -34,4 +34,3 @@
     "ts-node": "^10.4.0"
   }
 }
-
