@@ -1,6 +1,7 @@
 # Dependency directories
 node_modules/
 res
+services/constants.ts
 
 # Compiled JavaScript files
 *.js
